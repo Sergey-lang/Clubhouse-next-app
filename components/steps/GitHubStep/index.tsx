@@ -3,10 +3,10 @@ import {WhiteBlock} from '../../WhiteBlock';
 import {Button} from '../../Button';
 import {StepInfo} from '../../StepInfo';
 
-import styles from './TwitterStep.module.scss';
+import styles from './GitHubStep.module.scss';
 import React from 'react';
 
-export const TwitterStep = () => {
+export const GitHubStep = () => {
 
   return (
     <div className={styles.block}>

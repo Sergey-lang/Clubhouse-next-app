@@ -7,7 +7,15 @@ import {StepInfo} from '../../StepInfo';
 
 import styles from './EnterPhoneStep.module.scss';
 
-export const EnterPhoneStep = () => {
+type InputValueState = {
+  formattedValue: string;
+  value: string;
+}
+
+export const EnterPhoneStep: React.FC = () => {
+  const [values, setValues] = React.useState<InputValueState>({} as InputValueState)
+
+  const disabled = !values.formattedValue || values.formattedValue.includes('_')
 
   return (
     <div className={styles.block}>
@@ -21,16 +29,16 @@ export const EnterPhoneStep = () => {
           <img src="/static/russian-flag.png" alt="flag" width={24} />
           <NumberFormat
             className="field"
-            format="+# (###) ###-##-##"
+            format="+### (##) ###-##-##"
             mask="_"
-            placeholder="+7 (999) 333-22-11"
+            placeholder="+375 (29) 333-22-11"
             value={values.value}
-            onValueChange={({ formattedValue, value }) => setValues({ formattedValue, value })}
+            onValueChange={({formattedValue, value}) => setValues({formattedValue, value})}
           />
         </div>
         <Button disabled={disabled}>
-              Next
-              <img className="d-ib ml-10" src="/static/arrow.svg" />
+          Next
+          <img className="d-ib ml-10" src="/static/arrow.svg" />
         </Button>
         <p className={clsx(styles.policyText, 'mt-30')}>
           By entering your number, you’re agreeing to our Terms of Service and Privacy Policy.

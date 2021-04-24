@@ -1,7 +1,14 @@
 import clsx from 'clsx';
 import styles from './StepInfo.module.scss';
+import React from 'react';
 
-export const StepInfo = ({ title, description, icon }) => {
+interface StepInfoProps {
+  title: string;
+  description?: string;
+  icon: string;
+}
+
+export const StepInfo: React.FC<StepInfoProps> = ({title, description, icon}) => {
   return (
     <div className={clsx(styles.block, 'text-center')}>
       <div>
