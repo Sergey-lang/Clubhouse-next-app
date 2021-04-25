@@ -6,8 +6,10 @@ import {StepInfo} from '../../StepInfo';
 import {Avatar} from '../../Avatar';
 
 import styles from './ChooseAvatarStep.module.scss';
+import {MainContext} from '../../../pages';
 
 export const ChooseAvatarStep: React.FC = () => {
+  const { onNextStep } = React.useContext(MainContext);
   const [avatarUrl, setAvatarUrl] = React.useState<string>('https://m.media-amazon.com/images/M/MV5BMTg4NTgyOTgyNl5BMl5BanBnXkFtZTcwNDQ4OTEzMw@@._V1_SX1500_CR0')
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
@@ -44,7 +46,7 @@ export const ChooseAvatarStep: React.FC = () => {
           </label>
         </div>
         <input id="image" ref={inputFileRef} type="file" hidden />
-        <Button>
+        <Button onClick={onNextStep}>
           Next
           <img className="d-ib ml-10" src="/static/arrow.svg" />
         </Button>

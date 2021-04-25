@@ -5,8 +5,10 @@ import {StepInfo} from '../../StepInfo';
 
 import styles from './GitHubStep.module.scss';
 import React from 'react';
+import {MainContext} from '../../../pages';
 
-export const GitHubStep = () => {
+export const GitHubStep: React.FC = () => {
+  const { onNextStep } = React.useContext(MainContext);
 
   return (
     <div className={styles.block}>
@@ -29,7 +31,7 @@ export const GitHubStep = () => {
         </div>
         <h2 className="mb-40">Archakov Dennis</h2>
         <Button
-          onClick={onClickAuth}
+          onClick={onNextStep}
           className={clsx(styles.button, 'd-i-flex align-items-center')}>
           <img className="d-ib mr-10" src="/static/github.svg" />
           Import from GitHub
