@@ -1,9 +1,9 @@
-import {WelcomeStep} from '../components/steps/WelcomeStep';
-import {EnterNameStep} from '../components/steps/EnterNameStep';
-import {GitHubStep} from '../components/steps/GitHubStep';
-import {EnterPhoneStep} from '../components/steps/EnterPhoneStep';
-import {ChooseAvatarStep} from '../components/steps/ChooseAvatarStep';
-import {EnterCodeStep} from '../components/steps/EnterCodeStep';
+import { WelcomeStep } from '../components/steps/WelcomeStep';
+import { EnterNameStep } from '../components/steps/EnterNameStep';
+import { GitHubStep } from '../components/steps/GitHubStep';
+import { EnterPhoneStep } from '../components/steps/EnterPhoneStep';
+import { ChooseAvatarStep } from '../components/steps/ChooseAvatarStep';
+import { EnterCodeStep } from '../components/steps/EnterCodeStep';
 import React from 'react';
 
 const stepsComponents = {
@@ -20,19 +20,19 @@ type MainContextProps = {
   step: number;
 }
 
-export const MainContext = React.createContext<MainContextProps>({} as MainContextProps)
+export const MainContext = React.createContext<MainContextProps>({} as MainContextProps);
 
 export default function Home() {
   const [step, setStep] = React.useState<number>(3);
-  const Step = stepsComponents[step]
+  const Step = stepsComponents[step];
 
   const onNextStep = () => {
-    setStep((prev) => prev + 1)
-  }
+    setStep((prev) => prev + 1);
+  };
 
   return (
-    <MainContext.Provider value={{step, onNextStep}}>
-      <Step />
+    <MainContext.Provider value={{ step, onNextStep }}>
+      <Step/>
     </MainContext.Provider>
-  )
+  );
 }

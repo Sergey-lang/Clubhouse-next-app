@@ -12,14 +12,15 @@ interface AvatarProps {
   letters?: string;
 }
 
-export const Avatar: React.FC<AvatarProps> = ({
-  src,
-  width,
-  height,
-  className,
-  isVoice,
-  letters,
-}) => {
+export const Avatar: React.FC<AvatarProps> = (
+  {
+    src,
+    width,
+    height,
+    className,
+    isVoice,
+    letters,
+  }) => {
   return (
     <div
       style={{ width, height, backgroundImage: src ? `url(${src})` : '' }}

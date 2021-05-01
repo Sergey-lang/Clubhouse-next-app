@@ -9,8 +9,8 @@ type BackButtonProps = {
 export const BackButton: React.FC<BackButtonProps> = ({ title, href }) => {
   return (
     <Link href={href}>
-      <div className="d-flex mb-30 cup" style={{ width: '78px' }}>
-        <img src="/static/back-arrow.svg" alt="Back" className="mr-10" />
+      <div className="d-flex mb-30 cup" style={{ width: '10%' }}>
+        <img src="/static/back-arrow.svg" alt="Back" className="mr-10"/>
         <h3>{title}</h3>
       </div>
     </Link>

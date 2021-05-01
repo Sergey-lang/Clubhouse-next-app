@@ -1,9 +1,9 @@
-import {WhiteBlock} from '../../WhiteBlock';
-import {Button} from '../../Button';
+import { WhiteBlock } from '../../WhiteBlock';
+import { Button } from '../../Button';
 
 import styles from './WelcomeStep.module.scss';
 import React from 'react';
-import {MainContext} from '../../../pages';
+import { MainContext } from '../../../pages';
 
 export const WelcomeStep: React.FC = () => {
   const { onNextStep } = React.useContext(MainContext);
@@ -11,7 +11,7 @@ export const WelcomeStep: React.FC = () => {
   return (
     <WhiteBlock className={styles.block}>
       <h3 className={styles.title}>
-        <img className={styles.handWaveImg} src="/static/hand-wave.png" alt="Celebration" />
+        <img className={styles.handWaveImg} src="/static/hand-wave.png" alt="Celebration"/>
         Welcome to Clubhouse!
       </h3>
       <p>
@@ -21,7 +21,7 @@ export const WelcomeStep: React.FC = () => {
       <div>
         <Button onClick={onNextStep}>
           Get your username
-          <img className="d-ib ml-10" src="/static/arrow.svg" />
+          <img className="d-ib ml-10" src="/static/arrow.svg"/>
         </Button>
       </div>
       <div className="link mt-15 cup d-ib">Have an invite text? Sign in</div>
