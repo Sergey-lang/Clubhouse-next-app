@@ -4,11 +4,32 @@ import { Button } from '../../Button';
 import { StepInfo } from '../../StepInfo';
 
 import styles from './GitHubStep.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MainContext } from '../../../pages';
 
 export const GitHubStep: React.FC = () => {
   const { onNextStep } = React.useContext(MainContext);
+
+  const onClickAuth = () => {
+    const win = window.open(
+      'http://localhost:3001/auth/github',
+      'Auth',
+      'width=500,height=500,status=yes,toolbar=no,menubar=no,location=no'
+    );
+
+    const timer = setInterval(() => {
+      if (win.closed) {
+        clearInterval(timer);
+        onNextStep();
+      }
+    }, 100);
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', data => {
+      console.log(data);
+    });
+  }, []);
 
   return (
     <div className={styles.block}>
@@ -29,9 +50,9 @@ export const GitHubStep: React.FC = () => {
             />
           </svg>
         </div>
-        <h2 className="mb-40">Archakov Dennis</h2>
+        <h2 className="mb-40">User Name</h2>
         <Button
-          onClick={onNextStep}
+          onClick={onClickAuth}
           className={clsx(styles.button, 'd-i-flex align-items-center')}>
           <img className="d-ib mr-10" src="/static/github.svg"/>
           Import from GitHub

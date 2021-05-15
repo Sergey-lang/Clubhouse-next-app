@@ -8,8 +8,8 @@ import React from 'react';
 
 const stepsComponents = {
   0: WelcomeStep,
-  1: EnterNameStep,
-  2: GitHubStep,
+  1: GitHubStep,
+  2: EnterNameStep,
   3: ChooseAvatarStep,
   4: EnterPhoneStep,
   5: EnterCodeStep,
@@ -23,7 +23,7 @@ type MainContextProps = {
 export const MainContext = React.createContext<MainContextProps>({} as MainContextProps);
 
 export default function Home() {
-  const [step, setStep] = React.useState<number>(3);
+  const [step, setStep] = React.useState<number>(0);
   const Step = stepsComponents[step];
 
   const onNextStep = () => {
