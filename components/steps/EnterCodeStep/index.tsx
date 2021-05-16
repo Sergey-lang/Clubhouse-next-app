@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { WhiteBlock } from '../../WhiteBlock';
 import { useRouter } from 'next/router';
 import { StepInfo } from '../../StepInfo';
-import Axios from '../../../core/axios';
+import { Axios } from '../../../core/axios';
 
 import styles from './EnterPhoneStep.module.scss';
 

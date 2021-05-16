@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from '../../components/Header';
 import { BackButton } from '../../components/BackButton';
 import { Room } from '../../components/Room';
-import Axios from '../../core/axios';
+import { Axios } from '../../core/axios';
 
 const RoomPage: React.FC = ({ room }) => {
 

@@ -8,26 +8,24 @@ import React, { useEffect } from 'react';
 import { MainContext } from '../../../pages';
 
 export const GitHubStep: React.FC = () => {
-  const { onNextStep } = React.useContext(MainContext);
+  const { onNextStep, setUserData } = React.useContext(MainContext);
 
   const onClickAuth = () => {
-    const win = window.open(
+    window.open(
       'http://localhost:3001/auth/github',
       'Auth',
       'width=500,height=500,status=yes,toolbar=no,menubar=no,location=no'
     );
-
-    const timer = setInterval(() => {
-      if (win.closed) {
-        clearInterval(timer);
-        onNextStep();
-      }
-    }, 100);
   };
 
   useEffect(() => {
-    window.addEventListener('message', data => {
-      console.log(data);
+    window.addEventListener('message', ({ data }) => {
+      const user: string = data;
+      if (typeof user === 'string' && user.includes('avatarUrl')) {
+        const json = JSON.parse(user);
+        setUserData(json)
+        onNextStep();
+      }
     });
   }, []);
 

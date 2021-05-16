@@ -3,7 +3,7 @@ import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { ConversationCard } from '../components/ConversationCard';
 import Link from 'next/link';
-import Axios from '../core/axios';
+import { Axios } from '../core/axios';
 
 const Rooms: React.FC = ({ rooms = [] }) => {
 
