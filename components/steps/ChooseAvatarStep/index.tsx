@@ -9,7 +9,7 @@ import styles from './ChooseAvatarStep.module.scss';
 import { MainContext } from '../../../pages';
 import { Axios } from '../../../core/axios';
 
-const uploadFile = async (file: File) => {
+const uploadFile = async (file: File): Promise<{ url: string }> => {
   const formData = new FormData();
 
   formData.append('photo', file);
@@ -20,21 +20,25 @@ const uploadFile = async (file: File) => {
     }
   });
 
-  return data
+  return data;
 };
 
 export const ChooseAvatarStep: React.FC = () => {
-  const { onNextStep } = React.useContext(MainContext);
+  const { onNextStep, setFieldValue, userData } = React.useContext(MainContext);
   const [avatarUrl, setAvatarUrl] = React.useState<string>('https://m.media-amazon.com/images/M/MV5BMTg4NTgyOTgyNl5BMl5BanBnXkFtZTcwNDQ4OTEzMw@@._V1_SX1500_CR0');
+
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
   const handleChangeImage = async (event: Event) => {
-    const file = (event.target as HTMLInputElement).files[0];
+    const target = (event.target as HTMLInputElement);
+    const file = target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setAvatarUrl(imageUrl);
-      const data = await uploadFile(file)
-      console.log(data);
+      const data = await uploadFile(file);
+      target.value = '';
+      setAvatarUrl(data.url);
+      setAvatarUrl('avatarUrl', data.url);
     }
   };
 
@@ -48,7 +52,7 @@ export const ChooseAvatarStep: React.FC = () => {
     <div className={styles.block}>
       <StepInfo
         icon="/static/celebration.png"
-        title={`Okay, Sergey!`}
+        title={`Okay, ${userData?.fullname}!`}
         description="How’s this photo?"
       />
       <WhiteBlock className={clsx('m-auto mt-40', styles.whiteBlock)}>
