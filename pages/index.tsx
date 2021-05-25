@@ -5,6 +5,7 @@ import { EnterPhoneStep } from '../components/steps/EnterPhoneStep';
 import { ChooseAvatarStep } from '../components/steps/ChooseAvatarStep';
 import { EnterCodeStep } from '../components/steps/EnterCodeStep';
 import React from 'react';
+import { JSON } from 'sequelize';
 
 const stepsComponents = {
   0: WelcomeStep,
@@ -36,7 +37,21 @@ type MainContextProps = {
 export const MainContext = React.createContext<MainContextProps>({} as MainContextProps);
 
 export default function Home() {
-  const [step, setStep] = React.useState<number>(1);
+
+  const getFormStep = (): number => {
+    const data = window.localStorage.getItem('userData');
+    if (data) {
+      const json: UserData = JSON.parse(data);
+      if (json.phone) {
+        return 5;
+      } else {
+        return 4;
+      }
+    }
+    return 0;
+  };
+
+  const [step, setStep] = React.useState<number>(0);
   const [userData, setUserData] = React.useState<UserData>();
   const Step = stepsComponents[step];
 
@@ -50,6 +65,10 @@ export default function Home() {
       [field]: value
     }));
   };
+
+  React.useEffect(() => {
+    window.localStorage.setItem('userData', JSON.stringify(userData));
+  }, [userData]);
 
   return (
     <MainContext.Provider value={{ step, onNextStep, setUserData, userData, setFieldValue }}>

@@ -25,8 +25,11 @@ const uploadFile = async (file: File): Promise<{ url: string }> => {
 
 export const ChooseAvatarStep: React.FC = () => {
   const { onNextStep, setFieldValue, userData } = React.useContext(MainContext);
-  const [avatarUrl, setAvatarUrl] = React.useState<string>('https://m.media-amazon.com/images/M/MV5BMTg4NTgyOTgyNl5BMl5BanBnXkFtZTcwNDQ4OTEzMw@@._V1_SX1500_CR0');
-
+  const avatarLetters = userData.fullname
+    .split(' ')
+    .map(s => s[0])
+    .join('');
+  const [avatarUrl, setAvatarUrl] = React.useState<string>(userData.avatarUrl);
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
   const handleChangeImage = async (event: Event) => {
