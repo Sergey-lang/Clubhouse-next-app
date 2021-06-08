@@ -3,12 +3,17 @@ import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { ConversationCard } from '../components/ConversationCard';
 import Link from 'next/link';
-import { Axios } from '../core/axios';
+import Head from 'next/head';
+import { checkAuth } from '../helpers/checkAuth';
+import { redirect } from 'next/dist/next-server/server/api-utils';
 
-const Rooms: React.FC = ({ rooms = [] }) => {
-
+export default function Rooms({ rooms = [] }) {
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Clubhouse: Drop-in audio chat</title>
+      </Head>
       <Header/>
       <div className="container">
         <div className="mt-40 d-flex align-items-center justify-content-between">
@@ -34,16 +39,27 @@ const Rooms: React.FC = ({ rooms = [] }) => {
     </>
   );
 };
-export default Rooms
-export const getServerSideProps = async () => {
+
+export const getServerSideProps = async (ctx) => {
   try {
-    const { data } = await Axios.get('/rooms.json');
+    const user = await checkAuth(ctx);
+    if (!user) {
+      return {
+        props: {},
+        redirect: {
+          permanent: false,
+          destination: '/',
+        },
+      };
+    }
     return {
       props: {
-        rooms: data
+        user,
+        rooms: []
       }
     };
-  } catch (e) {
+  } catch (error) {
+    console.log('ERROR', error);
     return {
       props: {
         rooms: []

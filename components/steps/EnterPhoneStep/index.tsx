@@ -24,7 +24,7 @@ export const EnterPhoneStep: React.FC = () => {
   const onSubmit = () => {
     try {
       setIsLoading(true);
-      Axios.get('/auth/sms');
+      Axios.get(`/auth/sms?phone=${values.value}`);
       setFieldValue('phone', values.value);
     } catch (error) {
       console.warn('Ошибка при отправке смс', error);
