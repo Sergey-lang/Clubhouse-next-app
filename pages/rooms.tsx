@@ -4,8 +4,7 @@ import { Button } from '../components/Button';
 import { ConversationCard } from '../components/ConversationCard';
 import Link from 'next/link';
 import Head from 'next/head';
-import { checkAuth } from '../helpers/checkAuth';
-import { redirect } from 'next/dist/next-server/server/api-utils';
+import { checkAuth } from '../utils/checkAuth';
 
 export default function Rooms({ rooms = [] }) {
   return (

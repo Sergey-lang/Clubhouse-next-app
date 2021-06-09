@@ -5,7 +5,7 @@ import { EnterPhoneStep } from '../components/steps/EnterPhoneStep';
 import { ChooseAvatarStep } from '../components/steps/ChooseAvatarStep';
 import { EnterCodeStep } from '../components/steps/EnterCodeStep';
 import React from 'react';
-import { checkAuth } from '../helpers/checkAuth';
+import { checkAuth } from '../utils/checkAuth';
 
 const stepsComponents = {
   0: WelcomeStep,

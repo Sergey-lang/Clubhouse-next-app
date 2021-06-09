@@ -3,7 +3,7 @@ import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { User } from '../../models';
 import { UserData } from '../../pages';
-import { createJwtToken } from '../utils/createJwtToken';
+import { createJwtToken } from '../../utils/createJwtToken';
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -1,4 +1,4 @@
-import { UserData } from '../../pages';
+import { UserData } from '../pages';
 
 declare global {
   namespace Express {
