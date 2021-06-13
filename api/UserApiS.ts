@@ -1,0 +1,11 @@
+import { UserData } from '../pages';
+import { AxiosInstance } from 'axios';
+
+export const UserApiS = (instance: AxiosInstance) => {
+  return {
+    getMe: async (): Promise<UserData> => {
+      const { data } = await instance.get('/auth/me');
+      return data;
+    }
+  };
+};
