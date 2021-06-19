@@ -9,7 +9,9 @@ class AuthController {
 
   authCallback(req: express.Request, res: express.Response) {
     res.send(
-      `<script>window.opener.postMessage('${JSON.stringify(req.user)}', '*');window.close();</script>`);
+      `<script>window.opener.postMessage('${JSON.stringify(
+        req.user
+      )}', '*');window.close();</script>`);
   }
 
   async activate(req: express.Request, res: express.Response) {

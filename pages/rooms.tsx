@@ -23,9 +23,11 @@ export default function Rooms({ rooms = [] }) {
             setVisibleModal(true);
           }} color="green">+ Start room</Button>
         </div>
-        <StartRoomModal onClose={() => {
-          setVisibleModal(true);
-        }}/>
+        {
+          visibleModal && <StartRoomModal onClose={() => {
+            setVisibleModal(true);
+          }}/>
+        }
         <div className="grid mt-30">
           {
             rooms.map((obj) => (

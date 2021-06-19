@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "server": "ts-node-dev --respawn --transpile-only server/index.ts"
+    "server": "ts-node-dev --respawn --transpile-only server/index.ts",
+    "migrate": "npx sequelize-cli db:migrate"
   },
   "dependencies": {
     "@types/cors": "^2.8.10",

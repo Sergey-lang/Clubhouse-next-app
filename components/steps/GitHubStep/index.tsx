@@ -26,7 +26,6 @@ export const GitHubStep: React.FC = () => {
         const json: UserData = JSON.parse(user);
         setUserData(json);
         onNextStep();
-
         Cookies.set('token', json.token);
       }
     });
