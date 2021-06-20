@@ -23,7 +23,7 @@ class RoomController {
       }
 
       const room = await Room.create({ data });
-      res.json(room);
+      res.status(201).json(room);
     } catch (error) {
       res.status(500).json({ message: 'Error', error });
     }
@@ -32,13 +32,18 @@ class RoomController {
   async show(req: express.Request, res: express.Response) {
     try {
       const roomId = req.params.id;
-      const room = Room.findById(roomId);
+
+      if (isNaN(Number(roomId))) {
+        return res.status(404).json({ message: 'Неверный ID комнаты' });
+      }
+
+      const room = Room.findByPk(roomId);
 
       if (!room) {
         return res.status(404).json({ message: 'Комната не найдена' });
       }
-      res.json(room);
 
+      res.json(room);
     } catch (error) {
       res.status(500).json({ message: 'Error', error });
     }
@@ -46,17 +51,17 @@ class RoomController {
 
   async delete(req: express.Request, res: express.Response) {
     try {
-      const data = {
-        title: req.body.title,
-        type: req.body.type,
-      };
+      const roomId = req.params.id;
 
-      if (data.title || data.type) {
-        return res.status(400).json({ message: 'Отсутствует заголовок или тип комнаты' });
+      if (isNaN(Number(roomId))) {
+        return res.status(404).json({ message: 'Неверный ID комнаты' });
       }
 
-      const room = await Room.create({ data });
-      res.json(room);
+      await Room.destroy({
+        where: { id: roomId }
+      });
+
+      res.send();
     } catch (error) {
       res.status(500).json({ message: 'Error', error });
     }

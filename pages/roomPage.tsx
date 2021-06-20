@@ -6,9 +6,17 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { checkAuth } from '../utils/checkAuth';
 import { StartRoomModal } from '../components/StartRoomModal';
+import { Api } from '../api';
+import { Room } from '../api/RoomApi';
+import { GetServerSideProps, NextPage } from 'next';
 
-export default function Rooms({ rooms = [] }) {
+interface RoomPageProps {
+  rooms: Room[]
+}
+
+const RoomPage: NextPage<RoomPageProps> = ({ rooms }) => {
   const [visibleModal, setVisibleModal] = useState(false);
+
   return (
     <>
       <Head>
@@ -35,9 +43,9 @@ export default function Rooms({ rooms = [] }) {
                 <a className="d-flex">
                   <ConversationCard
                     title={obj.title}
-                    speakers={obj.guests}
-                    avatars={obj.avatars}
-                    listenersCount={obj.guestCount}/>
+                    avatars={[]}
+                    speakers={obj.speakers}
+                    listenersCount={obj.listenersCount}/>
                 </a>
               </Link>
             ))
@@ -48,7 +56,7 @@ export default function Rooms({ rooms = [] }) {
   );
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<RoomPageProps> = async (ctx) => {
   try {
     const user = await checkAuth(ctx);
 
@@ -61,10 +69,12 @@ export const getServerSideProps = async (ctx) => {
         },
       };
     }
+
+    const rooms = await Api(ctx).getRooms();
+
     return {
       props: {
-        user,
-        rooms: []
+        rooms,
       }
     };
   } catch (error) {
@@ -76,3 +86,5 @@ export const getServerSideProps = async (ctx) => {
     };
   }
 };
+
+export default RoomPage;

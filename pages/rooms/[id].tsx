@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from '../../components/Header';
 import { BackButton } from '../../components/BackButton';
 import { Room } from '../../components/Room';
-import { Axios } from '../../core/axios';
+import { Api } from '../../api';
 
 const RoomPage: React.FC = ({ room }) => {
 
@@ -16,12 +16,12 @@ const RoomPage: React.FC = ({ room }) => {
     </>
   );
 };
-export default RoomPage
+export default RoomPage;
 export const getServerSideProps = async (ctx) => {
   try {
-    const { data } = await Axios.get('/rooms.json');
-    const roomId = ctx.query.id
-    const room = data.find((obj) => obj.id === roomId);
+    const roomId = ctx.query.id;
+    const room = await Api(ctx).getRoom(roomId);
+
     return {
       props: {
         room,
@@ -29,9 +29,11 @@ export const getServerSideProps = async (ctx) => {
     };
   } catch (e) {
     return {
-      props: {
-        rooms: []
-      }
+      props: {},
+      redirect: {
+        permanent: false,
+        destination: '/rooms',
+      },
     };
   }
 };

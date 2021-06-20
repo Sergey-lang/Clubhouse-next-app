@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import React from 'react';
-// import { RoomApi, RoomType } from '../../api/RoomApi';
+import { RoomApi, RoomType } from '../../api/RoomApi';
 import { Axios } from '../../core/axios';
 import { Button } from '../Button';
 
@@ -14,22 +14,22 @@ interface StartRoomModalProps {
 export const StartRoomModal: React.FC<StartRoomModalProps> = ({ onClose }) => {
   const router = useRouter();
   const [title, setTitle] = React.useState<string>('');
-  const [type, setType] = React.useState('open');
+  const [type, setType] = React.useState<RoomType>('open');
 
-  // const onSubmit = async () => {
-  //   try {
-  //     if (!title) {
-  //       return alert('Укажите заголовок комнаты');
-  //     }
-  //     const room = await RoomApi(Axios).createRoom({
-  //       title,
-  //       type,
-  //     });
-  //     router.push(`/rooms/${room.id}`);
-  //   } catch (error) {
-  //     alert('Ошибка при создании команты');
-  //   }
-  // };
+  const onSubmit = async () => {
+    try {
+      if (!title) {
+        return alert('Укажите заголовок комнаты');
+      }
+      const room = await RoomApi(Axios).createRoom({
+        title,
+        type,
+      });
+      router.push(`/rooms/${room.id}`);
+    } catch (error) {
+      alert('Ошибка при создании команты');
+    }
+  };
 
   return (
     <div className={styles.overlay}>
@@ -57,19 +57,19 @@ export const StartRoomModal: React.FC<StartRoomModalProps> = ({ onClose }) => {
             <div
               onClick={() => setType('open')}
               className={clsx(styles.roomType, { [styles.roomTypeActive]: type === 'open' })}>
-              <img width="70px" height="70px" src="/static/room-type-1.png" alt="Room type" />
+              <img width="70px" height="70px" src="/static/room-type-1.png" alt="Room type"/>
               <h5>Open</h5>
             </div>
             <div
               onClick={() => setType('social')}
               className={clsx(styles.roomType, { [styles.roomTypeActive]: type === 'social' })}>
-              <img width="70px" height="70px" src="/static/room-type-2.png" alt="Room type" />
+              <img width="70px" height="70px" src="/static/room-type-2.png" alt="Room type"/>
               <h5>Social</h5>
             </div>
             <div
               onClick={() => setType('closed')}
               className={clsx(styles.roomType, { [styles.roomTypeActive]: type === 'closed' })}>
-              <img width="70px" height="70px" src="/static/room-type-3.png" alt="Room type" />
+              <img width="70px" height="70px" src="/static/room-type-3.png" alt="Room type"/>
               <h5>Closed</h5>
             </div>
           </div>
@@ -77,8 +77,8 @@ export const StartRoomModal: React.FC<StartRoomModalProps> = ({ onClose }) => {
         <div className={styles.delimiter}></div>
         <div className="text-center">
           <h3>Start a room open to everyone</h3>
-          <Button onClick={()=>{}} color="green">
-            <img width="18px" height="18px" src="/static/celebration.png" alt="Celebration" />
+          <Button onClick={onSubmit} color="green">
+            <img width="18px" height="18px" src="/static/celebration.png" alt="Celebration"/>
             Let's go
           </Button>
         </div>
