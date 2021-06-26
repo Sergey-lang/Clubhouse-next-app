@@ -10,11 +10,11 @@ import { Api } from '../api';
 import { Room } from '../api/RoomApi';
 import { GetServerSideProps, NextPage } from 'next';
 
-interface RoomPageProps {
+interface RoomsPageProps {
   rooms: Room[]
 }
 
-const RoomPage: NextPage<RoomPageProps> = ({ rooms }) => {
+const RoomsPage: NextPage<RoomsPageProps> = ({ rooms }) => {
   const [visibleModal, setVisibleModal] = useState(false);
 
   return (
@@ -56,7 +56,7 @@ const RoomPage: NextPage<RoomPageProps> = ({ rooms }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<RoomPageProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<RoomsPageProps> = async (ctx) => {
   try {
     const user = await checkAuth(ctx);
 
@@ -87,4 +87,4 @@ export const getServerSideProps: GetServerSideProps<RoomPageProps> = async (ctx)
   }
 };
 
-export default RoomPage;
+export default RoomsPage;
