@@ -7,16 +7,15 @@ import Head from 'next/head';
 import { checkAuth } from '../utils/checkAuth';
 import { StartRoomModal } from '../components/StartRoomModal';
 import { Api } from '../api';
-import { Room } from '../api/RoomApi';
 import { GetServerSideProps, NextPage } from 'next';
+import { useSelector } from 'react-redux';
+import { selectRooms } from '../redux/slices/selectors';
+import { wrapper } from '../redux/store';
+import { setRooms } from '../redux/slices/roomsSlice';
 
-interface RoomsPageProps {
-  rooms: Room[]
-}
-
-const RoomsPage: NextPage<RoomsPageProps> = ({ rooms }) => {
+const Rooms: NextPage = () => {
   const [visibleModal, setVisibleModal] = useState(false);
-
+  const rooms = useSelector(selectRooms);
   return (
     <>
       <Head>
@@ -56,7 +55,7 @@ const RoomsPage: NextPage<RoomsPageProps> = ({ rooms }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<RoomsPageProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (ctx) => {
   try {
     const user = await checkAuth(ctx);
 
@@ -72,10 +71,10 @@ export const getServerSideProps: GetServerSideProps<RoomsPageProps> = async (ctx
 
     const rooms = await Api(ctx).getRooms();
 
+    ctx.store.dispatch(setRooms(rooms));
+
     return {
-      props: {
-        rooms,
-      }
+      props: {}
     };
   } catch (error) {
     console.log('ERROR', error);
@@ -85,6 +84,6 @@ export const getServerSideProps: GetServerSideProps<RoomsPageProps> = async (ctx
       }
     };
   }
-};
+});
 
-export default RoomsPage;
+export default Rooms;

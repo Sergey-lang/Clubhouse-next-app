@@ -6,7 +6,8 @@ import { RoomApi } from './RoomApi';
 
 type ApiReturnType = ReturnType<typeof UserApiS> & ReturnType<typeof RoomApi>
 
-export const Api = (ctx: GetServerSidePropsContext): ApiReturnType => {
+// TODO: add types
+export const Api = (ctx: any): ApiReturnType => {
   const cookies = Cookies.get(ctx);
   const token = cookies.token;
 
