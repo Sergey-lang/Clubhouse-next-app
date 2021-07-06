@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Room, RoomApi, RoomType } from '../../api/RoomApi';
 import { Axios } from '../../core/axios';
 import { HYDRATE } from 'next-redux-wrapper';
-import { RootState } from '../store';
+import { RootState } from '../types';
 
-type RoomsSliceState = {
+export type RoomsSliceState = {
   items: Room[];
 }
 

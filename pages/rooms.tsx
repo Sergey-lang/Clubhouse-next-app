@@ -9,7 +9,7 @@ import { StartRoomModal } from '../components/StartRoomModal';
 import { Api } from '../api';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSelector } from 'react-redux';
-import { selectRooms } from '../redux/slices/selectors';
+import { selectRooms } from '../redux/selectors';
 import { wrapper } from '../redux/store';
 import { setRooms } from '../redux/slices/roomsSlice';
 
