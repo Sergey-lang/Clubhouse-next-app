@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import sharp from 'sharp';
 import fs from 'fs';
+import socket from 'socket.io';
+import { createServer } from 'http';
 import cors from 'cors';
 import './core/db';
 import { passport } from './core/passport';
@@ -15,6 +17,25 @@ dotenv.config({
 });
 
 const app = express();
+const server = createServer(app);
+const io = socket(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('CLIENT@ROOMS/JOIN', ({ user, roomId }) => {
+    socket.join(`room/${roomId}`);
+    socket.to(`room/${roomId}`).broadcast.emit('SERVER@ROOMS/JOIN', user)
+  });
+
+  socket.on('disconnecting', (socket) => {
+    console.log('disconnected');
+  });
+});
 
 app.use(cors());
 app.use(express.json);
@@ -32,7 +53,7 @@ app.get('/auth/sms', passport.authenticate('jwt', { session: false }),
 );
 app.get('/auth/github',
   passport.authenticate('github', { scope: ['user:email'] }));
-app.get(
+app.post(
   '/auth/sms/activate',
   passport.authenticate('jwt', { session: false }),
   AuthController.activate,
@@ -58,6 +79,6 @@ app.post('/upload', uploader.single('photo'), (req, res) => {
     });
 });
 
-app.listen(3001, () => {
+server.listen(3001, () => {
   console.log('SERVER RUNNED');
 });

@@ -20,11 +20,11 @@ export const Header: React.FC = () => {
         </Link>
         <Link href="/profile/1">
           <div className="d-flex align-items-center cup">
-            <b className="mr-5">{userData.fullname}</b>
+            <b className="mr-15">{userData?.fullname}</b>
             <Avatar
-              src={userData.avatarUrl}
-              width="50px"
-              height="50px"
+              src={userData?.avatarUrl}
+              width="40px"
+              height="40px"
             />
           </div>
         </Link>

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectRooms } from '../redux/selectors';
 import { wrapper } from '../redux/store';
 import { setRooms } from '../redux/slices/roomsSlice';
+import { setUserData } from '../redux/slices/userSlice';
 
 const Rooms: NextPage = () => {
   const [visibleModal, setVisibleModal] = useState(false);

@@ -6,12 +6,13 @@ import { StepInfo } from '../../StepInfo';
 import { Axios } from '../../../core/axios';
 
 import styles from './EnterPhoneStep.module.scss';
+import { MainContext } from '../../../pages';
 
 export const EnterCodeStep: React.FC = () => {
   const router = useRouter();
+  const { userData } = React.useContext(MainContext);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [codes, setCodes] = React.useState(['', '', '', '']);
-  const nextDisabled = codes.some((v) => !v);
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const index = Number(event.target.getAttribute('id'));
@@ -31,8 +32,11 @@ export const EnterCodeStep: React.FC = () => {
   const onSubmit = async (code: string) => {
     try {
       setIsLoading(true);
-      await Axios.get(`/auth/sms/activate?code=${codes}`);
-      router.push('/rooms');
+      await Axios.post(`/auth/sms/activate`, {
+        code,
+        user: userData,
+      });
+      await router.push('/rooms');
     } catch (error) {
       alert('Ошибка при активации!');
       setCodes(['', '', '', '']);
