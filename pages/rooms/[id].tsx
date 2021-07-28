@@ -8,28 +8,7 @@ import { checkAuth } from '../../utils/checkAuth';
 import io, { Socket } from 'socket.io-client';
 import { useRouter } from 'next/router';
 
-const RoomPage: React.FC = ({ room, user }) => {
-  const router = useRouter()
-  const socketRef = React.useRef<Socket>();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      socketRef.current = io('http://localhost:3001');
-
-      socketRef.current.emit('CLIENT@ROOMS/JOIN', {
-        user,
-        roomId: router.query.id
-      })
-
-      socketRef.current.on('SERVER@ROOMS:JOIN', user => {
-        console.log(user);
-      })
-    }
-    return () => {
-      socketRef.current.disconnect();
-    };
-  }, []);
-
+const RoomPage: React.FC = ({ room }) => {
   return (
     <>
       <Header/>

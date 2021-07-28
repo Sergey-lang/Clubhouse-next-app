@@ -24,18 +24,7 @@ const io = socket(server, {
   },
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.on('CLIENT@ROOMS/JOIN', ({ user, roomId }) => {
-    socket.join(`room/${roomId}`);
-    socket.to(`room/${roomId}`).broadcast.emit('SERVER@ROOMS/JOIN', user)
-  });
-
-  socket.on('disconnecting', (socket) => {
-    console.log('disconnected');
-  });
-});
+const rooms: Record<string, any> = {};
 
 app.use(cors());
 app.use(express.json);
@@ -77,6 +66,30 @@ app.post('/upload', uploader.single('photo'), (req, res) => {
         url: `/avatars/${req.file.filename.replace('.png', 'jpeg')}`
       });
     });
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  // if 'CLIENT@ROOMS:JOIN', get data and sent all users that this userId open room(show for everyone)
+  socket.on('CLIENT@ROOMS:JOIN', ({ user, roomId }) => {
+    socket.join(`room/${roomId}`);
+    rooms[socket.id] = { roomId, user };
+    socket.to(`room/${roomId}`).emit(
+      'SERVER@ROOMS:JOIN',
+      Object.values(rooms
+        .filter((obj) => obj.roomId === roomId)
+        .map(obj => obj.user)
+      )
+    );
+  });
+  // if user leave room
+  socket.on('disconnect', () => {
+    if (rooms[socket.id]) {
+      const { roomId, user } = rooms[socket.id];
+      socket.broadcast.to(`room/${roomId}`).broadcast.emit('SERVER@ROOMS:LEAVE', user);
+      delete rooms[socket.id];
+    }
+  });
 });
 
 server.listen(3001, () => {
