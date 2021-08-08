@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Header } from '../../components/Header';
 import { BackButton } from '../../components/BackButton';
 import { Room } from '../../components/Room';
 import { Api } from '../../api';
 import { wrapper } from '../../redux/store';
-import { checkAuth } from '../../utils/checkAuth';
-import io, { Socket } from 'socket.io-client';
-import { useRouter } from 'next/router';
+import { checkAuth } from '../../utils/checkAuth';;
 
 const RoomPage: React.FC = ({ room }) => {
   return (
