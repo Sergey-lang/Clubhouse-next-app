@@ -31,13 +31,15 @@ export const roomsSlice = createSlice({
     setRooms: (state, action: PayloadAction<Room[]>) => {
       state.items = action.payload;
     },
-    updateRoomSpeakers: (state, action: PayloadAction<Room['speakers']>) => {
+    setRoomSpeakers: (
+      state,
+      action: PayloadAction<{ speakers: Room['speakers'], roomId: number }>) => {
       state.items = state.items.map((room) => {
-        if(room.id === action.payload[0].roomId) {
-          room.speakers = action.payload;
+        if (room.id === action.payload.roomId) {
+          room.speakers = action.payload.speakers;
         }
         return room;
-      })
+      });
     }
   },
   extraReducers: (builder) =>
@@ -53,5 +55,5 @@ export const roomsSlice = createSlice({
       })
 });
 
-export const { setRooms } = roomsSlice.actions;
+export const { setRooms, setRoomSpeakers } = roomsSlice.actions;
 export const roomsReducer = roomsSlice.reducer;

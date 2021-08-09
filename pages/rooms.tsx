@@ -1,36 +1,37 @@
-import React, { useState } from "react";
-import { Header } from "../components/Header";
-import { Button } from "../components/Button";
-import { ConversationCard } from "../components/ConversationCard";
-import Link from "next/link";
-import Head from "next/head";
-import { checkAuth } from "../utils/checkAuth";
-import { StartRoomModal } from "../components/StartRoomModal";
-import { Api } from "../api";
-import { GetServerSideProps, NextPage } from "next";
-import { useSelector } from "react-redux";
-import { selectRooms } from "../redux/selectors";
-import { wrapper } from "../redux/store";
-import { setRooms } from "../redux/slices/roomsSlice";
-import { useSocket } from "../hooks/useSocket";
+import React, { useState } from 'react';
+import { Header } from '../components/Header';
+import { Button } from '../components/Button';
+import { ConversationCard } from '../components/ConversationCard';
+import Link from 'next/link';
+import Head from 'next/head';
+import { checkAuth } from '../utils/checkAuth';
+import { StartRoomModal } from '../components/StartRoomModal';
+import { Api } from '../api';
+import { GetServerSideProps, NextPage } from 'next';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectRooms } from '../redux/selectors';
+import { wrapper } from '../redux/store';
+import { setRooms, setRoomSpeakers } from '../redux/slices/roomsSlice';
+import { useSocket } from '../hooks/useSocket';
 
 const Rooms: NextPage = () => {
   const [visibleModal, setVisibleModal] = useState(false);
   const rooms = useSelector(selectRooms);
+  const dispatch = useDispatch();
   const socket = useSocket();
 
   React.useEffect(() => {
-    socket.on("SERVER@ROOMS:HOME", (users) => {
-      con
+    socket.on('SERVER@ROOMS:HOME', ({ roomId, speakers }) => {
+      dispatch(setRoomSpeakers({ speakers, roomId }));
     });
   }, []);
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Clubhouse: Drop-in audio chat</title>
       </Head>
-      <Header />
+      <Header/>
       <div className="container">
         <div className="mt-40 d-flex align-items-center justify-content-between">
           <h1>All conversations</h1>
@@ -78,7 +79,7 @@ export const getServerSideProps: GetServerSideProps =
           props: {},
           redirect: {
             permanent: false,
-            destination: "/",
+            destination: '/',
           },
         };
       }
@@ -91,7 +92,7 @@ export const getServerSideProps: GetServerSideProps =
         props: {},
       };
     } catch (error) {
-      console.log("ERROR", error);
+      console.log('ERROR', error);
       return {
         props: {
           rooms: [],

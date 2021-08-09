@@ -1,16 +1,15 @@
-import clsx from "clsx";
-import Link from "next/link";
-import React, { useEffect } from "react";
-import { Button } from "../Button";
+import clsx from 'clsx';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import { Button } from '../Button';
 
-import styles from "./Room.module.scss";
-import { Speaker, SpeakerProps } from "../Speaker";
-import { useRouter } from "next/router";
-import io, { Socket } from "socket.io-client";
-import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/selectors";
-import { UserData } from "../../pages";
-import { useSocket } from "../../hooks/useSocket";
+import styles from './Room.module.scss';
+import { Speaker } from '../Speaker';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../../redux/selectors';
+import { UserData } from '../../pages';
+import { useSocket } from '../../hooks/useSocket';
 
 interface RoomProps {
   title: string;
