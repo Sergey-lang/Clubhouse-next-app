@@ -6,6 +6,10 @@ export const UserApiS = (instance: AxiosInstance) => {
     getMe: async (): Promise<UserData> => {
       const { data } = await instance.get('/auth/me');
       return data;
+    },
+    getUserInfo: async (id: number): Promise<UserData> => {
+      const { data } = await instance.get('/user/' + id);
+      return data;
     }
   };
 };

@@ -1,6 +1,5 @@
 import express from 'express';
 import { Code, User } from '../../models';
-import { generateRandomCode } from '../../utils/generateRandomCode';
 
 class AuthController {
   getMe(req: express.Request, res: express.Response) {
@@ -48,11 +47,32 @@ class AuthController {
     }
   }
 
+  async getUserInfo(req: express.Request, res: express.Response) {
+    const userId = req.params.id;
+
+    try {
+      const findUser = await User.findByPk(userId);
+
+      if (findUser) {
+        res.json(await findUser);
+      } else {
+        res.status(400).json({
+          message: 'Пользователь не найден',
+        });
+      }
+
+    } catch (error) {
+      res.send(500).json({
+        message: 'Ошибка получения информации о пользователе',
+      });
+    }
+  }
+
   async sentSms(req: express.Request, res: express.Response) {
     const phone = req.query.phone;
     const userId = req.user.id;
-    const smsCode = generateRandomCode();
-
+    // const smsCode = generateRandomCode();
+    const smsCode = 1234;
     if (!phone) {
       return res.status(400).json({
         message: 'Номер телефона не указан',
@@ -60,6 +80,7 @@ class AuthController {
     }
 
     try {
+      // TODO: request to sms service api
       // await Axios.get(
       //   ``
       // );
@@ -75,7 +96,8 @@ class AuthController {
       }
 
       await Code.create({
-        code: generateRandomCode(),
+        // code: generateRandomCode(),
+        code: smsCode,
         user_id: userId
       });
 

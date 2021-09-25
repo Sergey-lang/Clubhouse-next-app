@@ -4,7 +4,7 @@ import { BackButton } from '../../components/BackButton';
 import { Room } from '../../components/Room';
 import { Api } from '../../api';
 import { wrapper } from '../../redux/store';
-import { checkAuth } from '../../utils/checkAuth';;
+import { checkAuth } from '../../utils/checkAuth';
 
 const RoomPage: React.FC = ({ room }) => {
   return (

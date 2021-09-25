@@ -51,11 +51,15 @@ app.delete(
   passport.authenticate('jwt', { session: false }),
   RoomController.delete
 );
-
 app.get(
   '/auth/me',
   passport.authenticate('jwt', { session: false }),
   AuthController.getMe
+);
+app.get(
+  '/user/:id',
+  passport.authenticate('jwt', { session: false }),
+  AuthController.getUserInfo
 );
 app.get(
   '/auth/sms',
@@ -106,17 +110,19 @@ io.on('connection', (socket) => {
     io.in(`room/${roomId}`).emit('SERVER@ROOMS:JOIN', speakers);
     Room.update({ speakers }, { where: { id: roomId } });
   });
-
-  socket.on('CLIENT@ROOMS:CALL', ({ user, roomId, signal }) => {
+  // give target,caller id from everyone users in room (CALL)
+  socket.on('CLIENT@ROOMS:CALL', ({ targetUserId, callerUserId, roomId, signal }) => {
     socket.broadcast.to(`room/${roomId}`).emit('SERVER@ROOMS:CALL', {
-      user,
+      targetUserId,
+      callerUserId,
       signal,
     });
   });
-  // transfer
-  socket.on('CLIENT@ROOMS/:ANSWER', ({ targetUserId, roomId, signal }) => {
+  // give target,caller id from everyone users in room (ANSWER)
+  socket.on('CLIENT@ROOMS/:ANSWER', ({ targetUserId, callerUserId, roomId, signal }) => {
     socket.broadcast.to(`room/${roomId}`).emit('SERVER@ROOMS:ANSWER', {
       targetUserId,
+      callerUserId,
       signal,
     });
   });
